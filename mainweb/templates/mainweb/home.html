@@ -1,0 +1,13 @@
+<h2>Wypełnij</h2>
+  <form method="post" action="#">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Login</button>
+  </form>
+{% for obj in object_list %}
+<div style="border-style: solid; margin-bottom: 0.3rem;">
+  <p>{{obj.vin}} /// {{obj.plates}} /// {{obj.date}}</p>
+  <p style="margin-left:3rem;"><b>{{obj.ip}} -- {{ obj.location }}</b></p>
+  <p><b>{{obj.user_agent}}</b></p>
+</div>
+{% endfor %}
