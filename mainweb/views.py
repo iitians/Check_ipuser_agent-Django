@@ -20,11 +20,7 @@ class ListDisplay(LoginRequiredMixin, ListView):
         if form.is_valid():
             x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
             if x_forwarded_for:
-                proxies = x_forwarded_for.split(',')
-                while (len(proxies) > 0 and proxies[0].startswith(PRIVATE_IPS_PREFIX)):
-                    proxies.pop(0)
-                    if len(proxies) > 0:
-                        ip = proxies[0]
+                ip = x_forwarded_for.split(',')[0]
             else:
                 ip = request.META.get('REMOTE_ADDR')
             form.instance.ip = ip
@@ -32,7 +28,7 @@ class ListDisplay(LoginRequiredMixin, ListView):
             form.instance.user_agent = user_agent
             location = get_location(ip)
             form.instance.location = location
-            form.save()   
+            form.save()
             return redirect('home')
         form = get_car_data()
         return redirect('home')
